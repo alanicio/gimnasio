@@ -17,8 +17,8 @@
 		      <td>{{rol.nombre}}</td>
 		      <td>{{rol.descripcion}}</td>
 		      <td>
-		      	<a class="btn btn-warning" href="#" role="button"><i class="fas fa-edit"></i> Editar</a>
-		      	<a class="btn btn-danger" href="#" role="button"><i class="fas fa-trash-alt"></i> Borrar</a>
+		      	<a class="btn btn-warning" href="{%url 'roles_edit' pk=rol.pk%}" role="button"><i class="fas fa-edit"></i> Editar</a>
+		      	<a class="btn btn-danger" href="{%url 'roles_delete' pk=rol.pk%}" role="button"><i class="fas fa-trash-alt"></i> Borrar</a>
 		      </td>
 		    </tr>
 		{% endfor %}

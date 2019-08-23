@@ -41,6 +41,11 @@ def empleados_edit(request,pk):
 			return HttpResponse('empleado editado')
 	return render(request, 'RH/empleados_create.html', {'roles':roles,'empleado':empleado})
 
+def	empleados_delete(request,pk):
+	User.objects.filter(pk=Empleado.objects.get(pk=pk).usuario.pk).delete()
+	return HttpResponse('usuario borrado')
+
+
 def roles_index(request):
 	roles=Rol.objects.all()
 	return render(request,'RH/roles_index.html',{'roles':roles})
@@ -52,3 +57,17 @@ def roles_create(request):
 			rol=form.save()
 			return HttpResponse(rol)
 	return render(request,'RH/roles_create.html',{})
+
+def roles_edit(request,pk):
+	rol=Rol.objects.get(pk=pk)
+	if request.method=="POST":
+		rol=get_object_or_404(Rol,pk=pk)
+		form=RolForm(request.POST,instance=rol)
+		if form.is_valid():
+			form.save()
+			return HttpResponse('Rol editado')
+	return render(request,'RH/roles_create.html',{'rol':rol})
+
+def roles_delete(request,pk):
+	Rol.objects.filter(pk=pk).delete()
+	return HttpResponse('rol borrado')
