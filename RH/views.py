@@ -3,6 +3,8 @@ from .models import *
 from django.utils import timezone
 from .forms import *
 from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from datetime import date
 
 # Create your views here.
 def empleados_index(request):
@@ -22,9 +24,26 @@ def empleados_create(request):
 			return HttpResponse('guardado')
 		else:
 			return HttpResponse(formU.is_valid())
-	else:
-		form = EmpleadoForm()
 	return render(request, 'RH/empleados_create.html', {'roles':roles})
+
+def empleados_edit(request,pk):
+	empleado=Empleado.objects.get(pk=pk)
+	usuario=empleado.usuario
+	roles=Rol.objects.all()
+	if request.method == "POST":
+		empleado=get_object_or_404(Empleado,pk=pk)
+		usuario=get_object_or_404(User,pk=empleado.usuario.pk)
+		formE=EmpleadoForm(request.POST,instance=empleado)
+		formU=UserForm(request.POST,instance=usuario)
+		if formU.is_valid() and formE.is_valid():
+			formU.save()
+			formE.save()
+			return HttpResponse('empleado editado')
+	return render(request, 'RH/empleados_create.html', {'roles':roles,'empleado':empleado})
+
+def roles_index(request):
+	roles=Rol.objects.all()
+	return render(request,'RH/roles_index.html',{'roles':roles})
 
 def roles_create(request):
 	if request.method == "POST":

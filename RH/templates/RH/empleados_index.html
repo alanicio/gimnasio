@@ -8,6 +8,7 @@
 	      <th scope="col">Nombre</th>
 	      <th scope="col">Apellido</th>
 	      <th scope="col">Rol</th>
+	      <th scope="col">Acción</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -15,8 +16,12 @@
 		    <tr>
 		      <td>{{empleado.pk}}</td>
 		      <td>{{empleado.nombre}}</td>
-		      <td>{{empleado.apellido_paterno}}</td>
-		      <td>{{empleado.apellido_materno}}</td>
+		      <td>{{empleado.apellido_paterno}} {% firstof empleado.apellido_materno ''%}</td>
+		      <td>{{empleado.rol.nombre}}</td>
+		      <td>
+		      	<a class="btn btn-warning" href="{% url 'empleados_edit' pk=empleado.pk %}" role="button"><i class="fas fa-edit"></i> Editar</a>
+		      	<a class="btn btn-danger" href="#" role="button"><i class="fas fa-trash-alt"></i> Borrar</a>
+		      </td>
 		    </tr>
 		{% endfor %}
 	  </tbody>

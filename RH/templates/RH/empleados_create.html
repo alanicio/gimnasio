@@ -1,36 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<form method="POST">
+	<form method="POST" onsubmit="return validatePass()">
 		{% csrf_token %}
 		<h5>Datos personales</h5>
 		<div class="form-row">
 			<div class="form-group col-md-2">
 			    <label for="inputNombre">Nombre</label>
-			    <input type="text" class="form-control" id="inputNombre" name="nombre" required="">
+			    <input type="text" class="form-control" id="inputNombre" name="nombre" required="" value="{%firstof empleado.nombre%}">
 			</div>	
 			<div class="form-group col-md-2">
 			    <label for="inputApellidoP">Apellido Paterno</label>
-			    <input type="text" class="form-control" id="inputApellidoP" name="apellido_paterno" required="">
+			    <input type="text" class="form-control" id="inputApellidoP" name="apellido_paterno" required="" value="{%firstof empleado.apellido_paterno%}">
 			</div>
 			<div class="form-group col-md-2">
 			    <label for="inputApellidoM">Apellido Materno</label>
-			    <input type="text" class="form-control" id="inputApellidoM" name="apellido_materno">
+			    <input type="text" class="form-control" id="inputApellidoM" name="apellido_materno" value="{%firstof empleado.apellido_materno%}">
 			</div>
 			<div class="form-group col-md-2">
 			    <label for="inputNacimiento">Fecha de nacimiento</label>
-			    <input type="date" class="form-control" id="inputNacimiento" name="fecha_de_nacimiento" required="">
+			    <input type="date" class="form-control" id="inputNacimiento" name="fecha_de_nacimiento" required="" value="{%firstof empleado.fecha_de_nacimiento|date:'Y-m-d'%}">
 			</div>
 		</div>
 		<h5>Datos del usuario</h5>
 	  <div class="form-row">
 	  	<div class="form-group col-md-2">
 	      <label for="inputUsuario">Usuario</label>
-	      <input type="text" class="form-control" id="inputUsuario" placeholder="Email" name="username">
+	      <input type="text" class="form-control" id="inputUsuario" name="username" value="{%firstof empleado.usuario.username%}">
 	    </div>	  	
 	    <div class="form-group col-md-2">
 	      <label for="inputCorreo">Correo</label>
-	      <input type="email" class="form-control" id="inputCorreo" placeholder="Email" name="email">
+	      <input type="email" class="form-control" id="inputCorreo" placeholder="Email" name="email" value="{%firstof empleado.usuario.email%}">
 	    </div>
 	    <div class="form-group col-md-2">
 	      <label for="inputPassword">Contraseña</label>
@@ -38,52 +38,34 @@
 	    </div>
 	    <div class="form-group col-md-2">
 	      <label for="inputPassword">Ingrese su contraseña nuevamente</label>
-	      <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" required="">
+	      <input type="password" class="form-control" id="inputPassword2" placeholder="Contraseña" required="">
 	    </div>
 	    <div class="form-group col-md-2">
 	      <label for="inputRol">Rol</label>
 	      <select id="inputRol" class="form-control" required="" name="rol">
 	        <option selected value="">Seleccione el rol del empleado...</option>
 	        {%for rol in roles%}
-	        	<option value="{{rol.pk}}">{{rol.nombre}}</option>
+	        	{%ifequal rol empleado.rol%}
+	        		<option selected value="{{rol.pk}}">{{rol.nombre}}</option>
+	        	{%else%}
+	        		<option value="{{rol.pk}}">{{rol.nombre}}</option>
+	        	{%endifequal%}
 	        {%endfor%}
 	      </select>
 	    </div>
 	  </div>
-	  <!-- <div class="form-group">
-	    <label for="inputAddress">Address</label>
-	    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-	  </div>
-	  <div class="form-group">
-	    <label for="inputAddress2">Address 2</label>
-	    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-	  </div>
-	  <div class="form-row">
-	    <div class="form-group col-md-6">
-	      <label for="inputCity">City</label>
-	      <input type="text" class="form-control" id="inputCity">
-	    </div>
-	    <div class="form-group col-md-4">
-	      <label for="inputState">State</label>
-	      <select id="inputState" class="form-control">
-	        <option selected>Choose...</option>
-	        <option>...</option>
-	      </select>
-	    </div>
-	    <div class="form-group col-md-2">
-	      <label for="inputZip">Zip</label>
-	      <input type="text" class="form-control" id="inputZip">
-	    </div>
-	  </div>
-	  <div class="form-group">
-	    <div class="form-check">
-	      <input class="form-check-input" type="checkbox" id="gridCheck">
-	      <label class="form-check-label" for="gridCheck">
-	        Check me out
-	      </label>
-	    </div>
-	  </div> -->
 	  <button type="submit" class="btn btn-primary">Registrar empleado</button>
 	</form>
+
+	<script type="text/javascript">
+		function validatePass()
+		{
+			if($('#inputPassword').val()!=$('#inputPassword2').val())
+			{
+				alert('Las contraseñas son diferentes');
+				return false;
+			}
+		}
+	</script>
 
 {% endblock content %}
