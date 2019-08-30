@@ -45,6 +45,8 @@ def empleados_edit(request,pk):
 		formU=UserForm(request.POST,instance=usuario)
 		if formU.is_valid() and formE.is_valid():
 			formU.save()
+			usuario.set_password(request.POST.get('password'))
+			usuario.save()
 			formE.save()
 			return HttpResponse('empleado editado')
 	return render(request, 'RH/empleados_create.html', {'roles':roles,'empleado':empleado})
