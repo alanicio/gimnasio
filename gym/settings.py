@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com','0.0.0.0','192.168.2.114']
 
+LOGIN_URL='/login'
+
+LOGIN_REDIRECT_URL='/'
 
 # Application definition
 
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'RH',
+    'sesion',
 ]
 
 MIDDLEWARE = [
