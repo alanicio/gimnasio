@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Responsabilidad</th>
+				<th scope="col">Descripcion</th>
+				<th scope="col">Empleados asignados</th>
+				<th scope="col">Roles asignados</th>
+			</tr>
+		</thead>
+		<tbody>
+			{%for r in responsabilidades%}
+				<tr>
+					<td>{{r.nombre}}</td>
+					<td>{{r.descripcion}}</td>
+					<td>
+						{%for e in r.empleados.all%}
+							{{e.nombre}} {{e.apellido_paterno}}<br>
+						{%endfor%}
+					</td>
+					<td>
+						{%for rol in r.roles.all%}
+							{{rol.nombre}}<br>
+						{%endfor%}
+					</td>
+				</tr>
+			{%endfor%}
+		</tbody>
+	</table>
+{% endblock content %}

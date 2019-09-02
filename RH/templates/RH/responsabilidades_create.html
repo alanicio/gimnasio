@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="nombre">Nombre de responsabilidad</label>
+        <input type="text" class="form-control" id="nombre" placeholder="Emcargado de limpieza, finanzas, etc. " name="nombre" value="{%firstof responsabilidad.nombre%}">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="descripcion">Descripción</label>
+        <textarea class="form-control" id="descripcion" name="descripcion">{%firstof responsabilidad.descripcion%}</textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+    	<label class="form-group col-12">Asignar a:</label>
+	    <div class="col-sm-2">
+	    	<label>Empleados:</label>
+	    	{%for empleado in empleados%}
+		    	<div class="form-check">
+				  <input class="form-check-input" type="checkbox" name="empleados" value="{{empleado.pk}}" id="defaultCheck1">
+				  <label class="form-check-label" for="defaultCheck1">
+				    {{empleado.nombre}} {{empleado.apellido_paterno}}
+				  </label>
+				</div>
+			{%endfor%}
+		</div>
+		<div class="col-sm-2">
+			<label>Roles:</label>
+			{%for rol in roles%}
+		    	<div class="form-check">
+				  <input class="form-check-input" type="checkbox" value="{{rol.pk}}" name="roles" id="defaultCheck1">
+				  <label class="form-check-label" for="defaultCheck1">
+				    {{rol.nombre}}
+				  </label>
+				</div>
+			{%endfor%}
+	    </div>
+	</div>
+    <button type="submit" class="btn btn-primary">Registrar responsabilidad</button>
+  </form>
+{% endblock content %}

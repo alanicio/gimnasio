@@ -86,3 +86,18 @@ def roles_edit(request,pk):
 def roles_delete(request,pk):
 	Rol.objects.filter(pk=pk).delete()
 	return HttpResponse('rol borrado')
+
+@login_required
+def responsabilidades_create(request):
+	roles=Rol.objects.all()
+	empleados=Empleado.objects.all()
+	if request.method=="POST":
+		form=ResponsabilidadForm(request.POST)
+		form.save()
+		return HttpResponse('responsabilidad guardada')
+	return render(request,'RH/responsabilidades_create.html',{'roles':roles,'empleados':empleados})
+
+@login_required
+def responsabilidades_index(request):
+	responsabilidades=Responsabilidad.objects.all()
+	return render(request,'RH/responsabilidades_index.html',{'responsabilidades':responsabilidades})

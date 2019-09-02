@@ -19,8 +19,8 @@ class Empleado(models.Model):
 class Responsabilidad(models.Model):
 	nombre=models.CharField(max_length=120)
 	descripcion=models.TextField()
-	empleado=models.ManyToManyField(Empleado)
-	rol=models.ManyToManyField(Rol)
+	empleados=models.ManyToManyField(Empleado,blank=True)
+	roles=models.ManyToManyField(Rol,blank=True)
 
 class Asistencia(models.Model):
 	fecha=models.DateTimeField(default=timezone.now)

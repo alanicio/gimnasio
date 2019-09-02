@@ -13,9 +13,14 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-	{% include "nav.html" %}
-
-	{% block content %}
-	{% endblock content %}
+	<div class="card">
+		<div class="card-header">
+			{% include "nav.html" %}
+		</div>
+		<div class="card-body">
+			{% block content %}
+			{% endblock content %}
+		</div>
+	</div>
 </body>
 </html>

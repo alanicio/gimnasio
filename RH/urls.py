@@ -10,4 +10,6 @@ urlpatterns=[
 	path('roles',views.roles_index,name='roles_index'),
 	path('roles/edit/<int:pk>/',views.roles_edit,name='roles_edit'),
 	path('roles/delete/<int:pk>/',views.roles_delete,name='roles_delete'),
+	path('responsabilidades',views.responsabilidades_index,name='r_index'),
+	path('responsabilidades/create',views.responsabilidades_create,name='r_create'),
 ]
