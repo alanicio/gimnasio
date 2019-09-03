@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 @login_required
@@ -28,9 +29,7 @@ def empleados_create(request):
 			empleado=formE.save(commit=False)
 			empleado.usuario=user
 			empleado.save()
-			return HttpResponse('guardado')
-		else:
-			return HttpResponse(formU.is_valid())
+			return empleados_index(request)
 	return render(request, 'RH/empleados_create.html', {'roles':roles})
 
 @login_required
@@ -48,13 +47,13 @@ def empleados_edit(request,pk):
 			usuario.set_password(request.POST.get('password'))
 			usuario.save()
 			formE.save()
-			return HttpResponse('empleado editado')
+			return empleados_index(request)
 	return render(request, 'RH/empleados_create.html', {'roles':roles,'empleado':empleado})
 
 @login_required
 def	empleados_delete(request,pk):
 	User.objects.filter(pk=Empleado.objects.get(pk=pk).usuario.pk).delete()
-	return HttpResponse('usuario borrado')
+	return empleados_index(request)
 
 
 @login_required
@@ -68,7 +67,7 @@ def roles_create(request):
 		form=RolForm(request.POST)
 		if form.is_valid():
 			rol=form.save()
-			return HttpResponse(rol)
+			return roles_index(request)
 	return render(request,'RH/roles_create.html',{})
 
 @login_required
@@ -79,13 +78,13 @@ def roles_edit(request,pk):
 		form=RolForm(request.POST,instance=rol)
 		if form.is_valid():
 			form.save()
-			return HttpResponse('Rol editado')
+			return roles_index(request)
 	return render(request,'RH/roles_create.html',{'rol':rol})
 
 @login_required
 def roles_delete(request,pk):
 	Rol.objects.filter(pk=pk).delete()
-	return HttpResponse('rol borrado')
+	return roles_index(request)
 
 @login_required
 def responsabilidades_create(request):
@@ -93,11 +92,30 @@ def responsabilidades_create(request):
 	empleados=Empleado.objects.all()
 	if request.method=="POST":
 		form=ResponsabilidadForm(request.POST)
-		form.save()
-		return HttpResponse('responsabilidad guardada')
+		if form.is_valid():
+			form.save()
+			return responsabilidades_index(request)
 	return render(request,'RH/responsabilidades_create.html',{'roles':roles,'empleados':empleados})
 
 @login_required
 def responsabilidades_index(request):
 	responsabilidades=Responsabilidad.objects.all()
 	return render(request,'RH/responsabilidades_index.html',{'responsabilidades':responsabilidades})
+
+@login_required
+def responsabilidades_edit(request,pk):
+	r=Responsabilidad.objects.get(pk=pk)
+	empleados=Empleado.objects.all()
+	roles=Rol.objects.all()
+	if request.method=="POST":
+		r=get_object_or_404(Responsabilidad,pk=pk)
+		form=ResponsabilidadForm(request.POST,instance=r)
+		if form.is_valid():
+			form.save()
+			return responsabilidades_index(request)
+	return render(request,'RH/responsabilidades_create.html',{'roles':roles,'empleados':empleados,'responsabilidad':r})
+
+@login_required
+def responsabilidades_delete(request,pk):
+	Responsabilidad.objects.filter(pk=pk).delete()
+	return responsabilidades_index(request)

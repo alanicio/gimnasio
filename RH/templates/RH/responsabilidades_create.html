@@ -19,7 +19,15 @@
 	    	<label>Empleados:</label>
 	    	{%for empleado in empleados%}
 		    	<div class="form-check">
-				  <input class="form-check-input" type="checkbox" name="empleados" value="{{empleado.pk}}" id="defaultCheck1">
+		    		<input class="form-check-input" type="checkbox" name="empleados" value="{{empleado.pk}}" id="defaultCheck1"
+		    		{%if responsabilidad%}
+		    			{%for e in responsabilidad.empleados.all%}
+		    				{%ifequal empleado.pk e.pk%}
+		    					 checked="" 
+		    				{%endifequal%}
+		    			{%endfor%}
+		    		{%endif%}
+		    		>				 
 				  <label class="form-check-label" for="defaultCheck1">
 				    {{empleado.nombre}} {{empleado.apellido_paterno}}
 				  </label>
@@ -30,7 +38,15 @@
 			<label>Roles:</label>
 			{%for rol in roles%}
 		    	<div class="form-check">
-				  <input class="form-check-input" type="checkbox" value="{{rol.pk}}" name="roles" id="defaultCheck1">
+				  <input class="form-check-input" type="checkbox" value="{{rol.pk}}" name="roles" id="defaultCheck1"
+				    {%if responsabilidad%}
+		    			{%for r in responsabilidad.roles.all%}
+		    				{%ifequal rol.pk r.pk%}
+		    					 checked="" 
+		    				{%endifequal%}
+		    			{%endfor%}
+		    		{%endif%}
+				  >
 				  <label class="form-check-label" for="defaultCheck1">
 				    {{rol.nombre}}
 				  </label>

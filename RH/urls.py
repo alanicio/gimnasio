@@ -12,4 +12,6 @@ urlpatterns=[
 	path('roles/delete/<int:pk>/',views.roles_delete,name='roles_delete'),
 	path('responsabilidades',views.responsabilidades_index,name='r_index'),
 	path('responsabilidades/create',views.responsabilidades_create,name='r_create'),
+	path('responsabilidades/edit/<int:pk>',views.responsabilidades_edit,name='r_edit'),
+	path('responsabilidades/delete/<int:pk>',views.responsabilidades_delete,name='r_delete'),
 ]
