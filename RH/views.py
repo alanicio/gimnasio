@@ -55,6 +55,11 @@ def	empleados_delete(request,pk):
 	User.objects.filter(pk=Empleado.objects.get(pk=pk).usuario.pk).delete()
 	return empleados_index(request)
 
+@login_required
+def empleados_show(request,pk):
+	empleado=Empleado.objects.get(pk=pk)
+	return render(request,'RH/empleados_create.html',{'empleado':empleado,'show':True})
+
 
 @login_required
 def roles_index(request):
