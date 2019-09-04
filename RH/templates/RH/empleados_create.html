@@ -61,6 +61,27 @@
 		    </div>
 	    {%endif%}  
 	  </div>
+	  {%if show%}
+	  	<h5>Responsabilidades asignadas</h5>
+	  	<div class="form-row">
+	  		{%for rg in empleado.rol.responsabilidad_set.all%}
+		  		<div class="form-group col-md-3">
+			      <input type="text" class="form-control" id="inputResponsabilidades" name="" value="{{rg.nombre}}" readonly="">
+			    </div>
+			    <div class="form-group col-md-8">
+					<textarea class="form-control" id="exampleFormControlTextarea1" readonly="">{{rg.descripcion}}</textarea>
+			    </div>	 	  
+		    {%endfor%}
+		    {%for re in empleado.responsabilidad_set.all%}
+		  		<div class="form-group col-md-3">
+			      <input type="text" class="form-control" id="inputResponsabilidades" name="" value="{{re.nombre}}" readonly="">
+			    </div>
+			    <div class="form-group col-md-8">
+					<textarea class="form-control" id="exampleFormControlTextarea1" readonly="">{{re.descripcion}}</textarea>
+			    </div>	 	  
+		    {%endfor%}
+	  	</div>
+	  {%endif%}
 	  <button type="submit" class="btn btn-primary">Registrar empleado</button>
 	</form>
 
