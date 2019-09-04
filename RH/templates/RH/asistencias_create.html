@@ -1,0 +1,24 @@
+{%extends "base.html"%}
+{%block content%}
+	{% load static %}
+	<div class="text-center">
+		<img src="{% static 'imgs/huella_digital.png' %}" class="card-img-top" style="width: 20%;">
+		<div class="card-body">
+			<a class="btn btn-success" role="button">Checar asistencia</a>
+		</div>
+	</div>
+<script type="text/javascript">
+	$('a').on('click',function(){
+		$.ajax({
+			url:'/RH/asis/checked',
+			success:function(res){
+				Swal.fire('Bienvenido '+res.user,
+					'Ha checado a las '+res.fecha,
+					'success'
+					);
+			}
+
+		});
+	});
+</script>
+{%endblock content%}

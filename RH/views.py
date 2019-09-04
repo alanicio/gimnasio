@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 import sweetify
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required
@@ -134,3 +135,13 @@ def responsabilidades_delete(request,pk):
 	Responsabilidad.objects.filter(pk=pk).delete()
 	sweetify.success(request,'Responsabilidad eliminada',timer=1500)
 	return responsabilidades_index(request)
+
+@login_required
+def asistencias_create(request):
+	return render(request,'RH/asistencias_create.html',{})
+
+@login_required
+def asistencias_check(request):
+	asis=Asistencia.objects.create(tipo='e',empleado=request.user.empleado)
+	user=request.user.empleado.nombre+' '+request.user.empleado.apellido_materno
+	return JsonResponse({'user':user,'fecha':asis.fecha.strftime('%H:%M')})
