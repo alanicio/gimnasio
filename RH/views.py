@@ -8,6 +8,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+import sweetify
 
 # Create your views here.
 @login_required
@@ -29,6 +30,7 @@ def empleados_create(request):
 			empleado=formE.save(commit=False)
 			empleado.usuario=user
 			empleado.save()
+			sweetify.success(request,'Empleado agregado',timer=1500)
 			return empleados_index(request)
 	return render(request, 'RH/empleados_create.html', {'roles':roles})
 
@@ -47,12 +49,14 @@ def empleados_edit(request,pk):
 			usuario.set_password(request.POST.get('password'))
 			usuario.save()
 			formE.save()
+			sweetify.success(request,'Empleado modificado',timer=1500)
 			return empleados_index(request)
 	return render(request, 'RH/empleados_create.html', {'roles':roles,'empleado':empleado})
 
 @login_required
 def	empleados_delete(request,pk):
 	User.objects.filter(pk=Empleado.objects.get(pk=pk).usuario.pk).delete()
+	sweetify.success(request,'Empleado eliminado',timer=1500)
 	return empleados_index(request)
 
 @login_required
@@ -72,6 +76,7 @@ def roles_create(request):
 		form=RolForm(request.POST)
 		if form.is_valid():
 			rol=form.save()
+			sweetify.success(request,'Rol agregado',timer=1500)
 			return roles_index(request)
 	return render(request,'RH/roles_create.html',{})
 
@@ -83,12 +88,14 @@ def roles_edit(request,pk):
 		form=RolForm(request.POST,instance=rol)
 		if form.is_valid():
 			form.save()
+			sweetify.success(request,'Rol modificado',timer=1500)
 			return roles_index(request)
 	return render(request,'RH/roles_create.html',{'rol':rol})
 
 @login_required
 def roles_delete(request,pk):
 	Rol.objects.filter(pk=pk).delete()
+	sweetify.success(request,'Rol eliminado',timer=1500)
 	return roles_index(request)
 
 @login_required
@@ -99,6 +106,7 @@ def responsabilidades_create(request):
 		form=ResponsabilidadForm(request.POST)
 		if form.is_valid():
 			form.save()
+			sweetify.success(request,'Responsabilidad agregada',timer=1500)
 			return responsabilidades_index(request)
 	return render(request,'RH/responsabilidades_create.html',{'roles':roles,'empleados':empleados})
 
@@ -117,10 +125,12 @@ def responsabilidades_edit(request,pk):
 		form=ResponsabilidadForm(request.POST,instance=r)
 		if form.is_valid():
 			form.save()
+			sweetify.success(request,'Responsabilidad modificada',timer=1500)
 			return responsabilidades_index(request)
 	return render(request,'RH/responsabilidades_create.html',{'roles':roles,'empleados':empleados,'responsabilidad':r})
 
 @login_required
 def responsabilidades_delete(request,pk):
 	Responsabilidad.objects.filter(pk=pk).delete()
+	sweetify.success(request,'Responsabilidad eliminada',timer=1500)
 	return responsabilidades_index(request)

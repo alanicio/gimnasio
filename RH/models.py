@@ -14,7 +14,7 @@ class Empleado(models.Model):
 	fecha_de_nacimiento=models.DateTimeField(blank=True,null=True)
 	fecha_de_alta=models.DateTimeField(default=timezone.now)
 	rol=models.ForeignKey(Rol,on_delete=models.CASCADE)
-	usuario=models.ForeignKey('auth.User',on_delete=models.CASCADE)
+	usuario=models.OneToOneField('auth.User',on_delete=models.CASCADE)
 
 class Responsabilidad(models.Model):
 	nombre=models.CharField(max_length=120)
