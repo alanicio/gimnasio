@@ -145,3 +145,7 @@ def asistencias_check(request):
 	asis=Asistencia.objects.create(tipo='e',empleado=request.user.empleado)
 	user=request.user.empleado.nombre+' '+request.user.empleado.apellido_materno
 	return JsonResponse({'user':user,'fecha':asis.fecha.strftime('%H:%M')})
+
+@login_required
+def asistencias_index(request):
+	pass

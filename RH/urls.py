@@ -17,4 +17,5 @@ urlpatterns=[
 	path('responsabilidades/delete/<int:pk>',views.responsabilidades_delete,name='r_delete'),
 	path('asistencias/create',views.asistencias_create,name='asis_create'),
 	path('asis/checked',views.asistencias_check,name='check'),
+	path('asistencias',views.asistencias_index,name='asis_index'),
 ]
