@@ -142,10 +142,17 @@ def asistencias_create(request):
 
 @login_required
 def asistencias_check(request):
-	asis=Asistencia.objects.create(tipo='e',empleado=request.user.empleado)
+	if(request.user.empleado.asistencia_set.all()):
+		if(request.user.empleado.asistencia_set.latest('pk').tipo=='e'):
+			asis=Asistencia.objects.create(tipo='s',empleado=request.user.empleado)	
+		else:
+			asis=Asistencia.objects.create(tipo='e',empleado=request.user.empleado)
+	else:
+		asis=Asistencia.objects.create(tipo='e',empleado=request.user.empleado)
 	user=request.user.empleado.nombre+' '+request.user.empleado.apellido_materno
 	return JsonResponse({'user':user,'fecha':asis.fecha.strftime('%H:%M')})
 
 @login_required
 def asistencias_index(request):
-	pass
+	asis=Asistencia.objects.all()
+	return render(request,'RH/asistencias_index.html',{'asistencias':asis})
